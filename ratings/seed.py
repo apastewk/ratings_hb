@@ -7,7 +7,7 @@ from model import Movie
 
 from model import connect_to_db, db
 from server import app
-from datetime import datetime
+from datetime import date
 import re
 
 
@@ -51,7 +51,7 @@ def load_movies():
         title = re.sub(r" \(\d+\)$", "", title)
 
         if released_at:
-            date_formatted_release = datetime.strptime(released_at, '%d-%b-%Y')
+            date_formatted_release = date.strptime(released_at, '%d-%b-%Y')
         else:
             date_formatted_release = None
 
