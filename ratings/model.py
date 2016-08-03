@@ -44,14 +44,33 @@ class User(db.Model):
             paired_ratings[rating.movie_id] = [rating.score]
 
         for rating in other.ratings:
-            if paired_ratings[rating.movie_id]:
+            if paired_ratings.get(rating.movie_id):
                 paired_ratings[rating.movie_id].append(rating.score)
-            print paired_ratings
 
         for key, value in paired_ratings.items():
-            final_pairs.append((value[0], value[1]))
+            if len(value) == 2:
+                final_pairs.append((value[0], value[1]))
 
         return correlation.pearson(final_pairs)
+
+
+    def compare_all_users(self):
+        """Comparing correlation between all users and self based on previous ratings"""
+
+        all_users = User.query.all()
+
+        correlation_comparison = []
+
+        for user in all_users:
+            indiv_correlation = self.similarity(user)
+            correl_user_pair = (indiv_correlation, user.user_id)
+            correlation_comparison.append(correl_user_pair)
+
+        return correlation_comparison
+
+
+    def predict_rating()
+
 
 
 
