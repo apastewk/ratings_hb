@@ -50,7 +50,8 @@ class User(db.Model):
             if len(value) == 2:
                 final_pairs.append((value[0], value[1]))
 
-        return correlation.pearson(final_pairs)
+        if len(final_pairs) > 0:
+            return correlation.pearson(final_pairs)
 
 
     def compare_all_users(self):
@@ -62,11 +63,11 @@ class User(db.Model):
 
         for user in all_users:
             indiv_correlation = self.similarity(user)
+            # if indiv_correlation is not None:
             correl_user_pair = (indiv_correlation, user.user_id)
             correlation_comparison.append(correl_user_pair)
-            print correlation_comparison
 
-        # print correlation_comparison
+        return correlation_comparison
 
 
     def predict_rating(self, movie_id):
@@ -77,21 +78,16 @@ class User(db.Model):
         pearson = []
 
         for correlation in correlation_comparison:
-            user_id = correlation_comparison[1]
-            user_score = Rating.query.filter(Rating.user_id == user_id & Rating.movie_id == movie_id).first()
+            user_id = correlation[1]
+            user_score = Rating.query.filter((Rating.user_id == user_id) & (Rating.movie_id == movie_id)).first()
             if user_score:
-                pearson.append((correlation_comparison[0], user_score))
+                pearson.append((correlation[0], user_score.score))
 
         numerator = sum([correlation * score for correlation, score in pearson])
-        print numerator
 
         denominator = sum([correlation for correlation, score in pearson])
-        print denominator
 
-        # return numerator/denominator
-
-
-
+        return numerator/denominator
 
 
 
