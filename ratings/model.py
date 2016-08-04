@@ -1,7 +1,6 @@
 """Models and database functions for Ratings project."""
 
 from flask_sqlalchemy import SQLAlchemy
-from math import sqrt
 import correlation
 
 # This is the connection to the PostgreSQL database; we're getting this through
@@ -65,11 +64,31 @@ class User(db.Model):
             indiv_correlation = self.similarity(user)
             correl_user_pair = (indiv_correlation, user.user_id)
             correlation_comparison.append(correl_user_pair)
+            print correlation_comparison
 
-        return correlation_comparison
+        # print correlation_comparison
 
 
-    def predict_rating()
+    def predict_rating(self, movie_id):
+        """For a given movie, predicts what self will rate based on correlation with other users"""
+
+        correlation_comparison = self.compare_all_users()
+
+        pearson = []
+
+        for correlation in correlation_comparison:
+            user_id = correlation_comparison[1]
+            user_score = Rating.query.filter(Rating.user_id == user_id & Rating.movie_id == movie_id).first()
+            if user_score:
+                pearson.append((correlation_comparison[0], user_score))
+
+        numerator = sum([correlation * score for correlation, score in pearson])
+        print numerator
+
+        denominator = sum([correlation for correlation, score in pearson])
+        print denominator
+
+        # return numerator/denominator
 
 
 
