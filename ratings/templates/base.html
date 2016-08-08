@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <title>Ratings</title>
+</head>
+<body>
+    <div id='flash messages'>
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+    </div>
+    <p id="important-links">
+        <div id="login-link">
+            <a href='/login'>Login</a>
+        </div>
+
+        <div id="register-link">
+            <a href='/register'>Register</a>
+        </div>
+
+        <div id="logout-link">
+            <a href='/logout'>Logout</a>
+        </div>
+        <div id="users-link">
+            <a href='/users'>Users</a>
+        </div>
+        <div id="movies-link">
+            <a href='/movies'>Movies</a>
+        </div>
+    </p>
+    {% block content %} PUT BLOCK CONTENT HERE {% endblock %}
+</body>
+</html>

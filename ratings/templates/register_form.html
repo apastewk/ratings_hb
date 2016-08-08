@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2>Registration Form</h2>
+    <form action="/register" method="POST">
+      <label for='field-email'> Email: </label>
+        <input type='text' name='email' id='field-email'></input>
+      <br>
+      <br>
+      <label for='field-password'>Password: </label>
+        <input type='text' name='password' id='field-password'></input>
+      <br>
+      <br>
+      <label for='submit-register'></label>
+      <input type ='submit' id='submit-register'>
+
+    </form>
+
+{% endblock %}

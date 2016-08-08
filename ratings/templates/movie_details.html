@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2>Movie Title: {{ title }}</h2>
+    <h3>Release Date: {{ released }} &nbsp; IMDB: {{ imdb }} </h4>
+    {% if prediction %}
+      <h3> Predicted Rating: {{ prediction }} </h3>
+      {% endif %}
+
+    <form action="/add_score_to_db/{{ movie_id }}", method="POST">
+      <label for="field-add-rating">Enter Your Rating for {{ title }}: </label>
+      <input type="text", name="new-score", id="field-add-rating"></input>
+      <br>
+      <input type="submit" id="new-rating-button">
+    </form>
+    <br>
+    <table>
+      <tr>
+        <th>User ID</th>
+        <th>User Rating</th>
+      </tr>
+        {% for rating in ratings %}
+      <tr>
+            <td>{{ rating[0] }}</td>
+            <td>{{ rating[1] }}</td>
+        {% endfor %}
+      </tr>
+    </table>
+
+{% endblock %}
